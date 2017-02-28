@@ -1,4 +1,4 @@
-FROM php:5.6-fpm-alpine
+FROM php:7.1-fpm-alpine
 
 ENV ADMIN_EMAIL=admin@localhost \
     SITE_NAME=Directus \
@@ -10,6 +10,8 @@ RUN apk --update --no-cache add \
 	alpine-sdk \
 	git \
 	libtool \
+  libcurl \
+  curl-dev \
 	bash \
 	su-exec \
 	mysql-client \
@@ -21,18 +23,18 @@ RUN apk --update --no-cache add \
     libpng-dev \
     imagemagick-dev &&\
 	docker-php-ext-install mcrypt && \
-    docker-php-ext-install mysql && \
-    docker-php-ext-install mysqli && \
     docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
-    docker-php-ext-install gd curl fileinfo pdo pdo_mysql && \
-    pecl install imagick && \
-    docker-php-ext-enable imagick && \
-    pecl install memcache && \
-    docker-php-ext-enable memcache
+    docker-php-ext-install gd curl fileinfo pdo pdo_mysql mysqli && \
+  pecl install imagick && \
+    docker-php-ext-enable imagick
+
+# TODO: enable memcache again
+# pecl install memcache && \
+#   docker-php-ext-enable memcache
 
 # install composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
-    php -r "if (hash_file('SHA384', 'composer-setup.php') === 'e115a8dc7871f15d853148a7fbac7da27d6c0030b848d9b3dc09e2a0388afed865e6a3d6b3c0fad45c48e2b5fc1196ae') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
+    php -r "if (hash_file('SHA384', 'composer-setup.php') === '55d6ead61b29c7bdee5cccfb50076874187bd9f21f65d8991d46ec5cc90518f447387fb9f76ebae1fbbacf329e583e30') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
     php composer-setup.php --install-dir=/usr/local/bin --filename=composer && \
     php -r "unlink('composer-setup.php');"
 

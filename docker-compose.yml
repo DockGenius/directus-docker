@@ -10,7 +10,8 @@ services:
     volumes:
       - directus-db:/var/lib/mysql
   fpm:
-    image: iamdb/fpm-directus-docker
+    build: fpm-directus
+    #image: iamdb/fpm-directus-docker
     container_name: fpm
     links:
       - mariadb:mariadb
@@ -40,7 +41,8 @@ services:
     image: "memcached:alpine"
     container_name: memcached
   caddy:
-    image: iamdb/caddy-directus-docker
+    #image: iamdb/caddy-directus-docker
+    build: caddy-directus
     container_name: nginx
     links:
       - fpm:fpm
