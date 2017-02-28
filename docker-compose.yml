@@ -28,7 +28,7 @@ services:
       ADMIN_EMAIL: admin@localhost
       SITE_NAME: Directus
       ADMIN_PASSWORD: password
-      DIRECTUS_VERSION: 6.3.4
+      DIRECTUS_VERSION: master
       MEMCACHE_URL: memcached
       # S3_KEY: <key>
       # S3_SECRET: <secret>

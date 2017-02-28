@@ -21,6 +21,8 @@ RUN apk --update --no-cache add \
     libpng-dev \
     imagemagick-dev &&\
 	docker-php-ext-install mcrypt && \
+    docker-php-ext-install mysql && \
+    docker-php-ext-install mysqli && \
     docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
     docker-php-ext-install gd curl fileinfo pdo pdo_mysql && \
     pecl install imagick && \
